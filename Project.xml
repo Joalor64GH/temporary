@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<!-- _________________________ Application Settings _________________________ -->
+
+	<!-- Main Stuff -->
+	<app title="Friday Night Funkin': Joalor64 Engine Rewritten" package="com.joalor64gh.j64enginere" main="Main" version="0.2.8" company="Joalor64GH" />
+	<app file="J64EngineRE_WIN" if="windows" />
+	<app file="J64EngineRE_APP" if="linux" />
+	<app file="J64EngineRE_MAC" if="mac" />
+
+	<!-- Just for clarfication -->
+	<section if="debug">
+		<app file="J64EngineRE_WIN DEBUG" if="windows" />
+		<app file="J64EngineRE_APP DEBUG" if="linux" />
+		<app file="J64EngineRE_MAC DEBUG" if="mac" />
+	</section>
+
+	<!--Preloader-->
+	<app preloader="flixel.system.FlxPreloader" />
+	<set name="SWF_VERSION" value="11.8" />
+
+	<!-- ____________________________ Window Settings ___________________________ -->
+
+	<!--All targets-->
+	<window width="1280" height="720" fps="" background="#000000" hardware="true" vsync="false" />
+
+	<!--HTML5-->
+	<window if="html5" resizable="true" />
+
+	<!--Desktop-->
+	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
+
+	<!--macOS-->
+	<window if="mac" orientation="auto" fullscreen="false" resizable="true" vsync="false" allow-high-dpi="true" />
+
+	<!--Mobile-->
+	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
+
+	<!-- _______________________________ Custom Defines ______________________________ -->
+
+	<!-- UNCOMMENT THESE TO DISABLE THEM -->
+	<section if="desktop">
+		<define name="MODS_ALLOWED" />
+		<define name="LUA_ALLOWED" />
+		<define name="HSCRIPT_ALLOWED" />
+		<define name="SCRIPT_EXTENSION" />
+		<define name="WEBM_ALLOWED" />
+		<define name="FLASH_MOVIE" />
+		<define name="CHECK_FOR_UPDATES" />
+	</section>
+	<define name="FUTURE_POLYMOD" if="MODS_ALLOWED" />
+	<define name="ACHIEVEMENTS_ALLOWED" />
+	<define name="VIDEOS_ALLOWED" if="web || windows" unless="32bits"/>
+	<define name="JOALOR64_WATERMARKS"/>
+	<define name="PSYCH_WATERMARKS" unless="JOALOR64_WATERMARKS"/>
+	<define name="CRASH_HANDLER" if="desktop release" />
+	<define name="PSYCH"/>
+	<define name="EMBED_ASSETS"/>
+	<define name="PRELOAD_ALL" unless="web" />
+	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
+
+	<!-- _____________________________ Export Folder ____________________________ -->
+
+	<set name="BUILD_DIR" value="export/debug" if="debug" />
+	<set name="BUILD_DIR" value="export/release" unless="debug" />
+	<set name="BUILD_DIR" value="export/32bit" if="32bits" />
+
+	<!-- _____________________________ Path Settings ____________________________ -->
+
+	<!--LOCATION OF SOURCE FILES-->
+	<source path="source" />
+
+        <section if="EMBED_ASSETS">
+	        <assets path="assets/art" embed='false'/>
+	        <assets path="assets/core" embed='true'/>
+		<assets path="assets/fonts" embed='true'/>
+		<assets path='art/header.lua' embed='true'/>
+	</section>
+
+	<!-- SWF EXAMPLE -->
+	<!--<library path="assets/flash/movie.swf" preload="true" id="id"/>-->
+	
+	<!-- ALWAYS PRELOADED -->
+	<library name="videos"        preload="true" />
+    
+	<!-- NOT ALWAYS PRELOADED -->
+	<section if="PRELOAD_ALL">
+		<library name="songs"         preload="true" />
+		<library name="shared"        preload="true" />
+		<library name="tutorial"      preload="true" />
+		<library name="week1"         preload="true" />
+		<library name="week2"         preload="true" />
+		<library name="week3"         preload="true" />
+		<library name="week4"         preload="true" />
+		<library name="week5"         preload="true" />
+		<library name="week6"         preload="true" />
+		<library name="week7"         preload="true" />
+	</section>
+	
+	<section if="NO_PRELOAD_ALL">
+		<library name="songs"         preload="true" />
+		<library name="shared"        preload="false" />
+		<library name="tutorial"      preload="false" />
+		<library name="week1"         preload="false" />
+		<library name="week2"         preload="false" />
+		<library name="week3"         preload="false" />
+		<library name="week4"         preload="false" />
+		<library name="week5"         preload="false" />
+		<library name="week6"         preload="false" />
+		<library name="week7"         preload="false" />
+	</section>
+
+	<section if="VIDEOS_ALLOWED || WEBM_ALLOWED">
+	        <assets path="assets/videos"        library="videos" />
+        </section>
+
+    	<section if="LUA_ALLOWED">
+		<assets path="assets/scripting/scripts"             rename="assets/scripts"/>
+		<assets path="assets/scripting/custom_events"       rename="assets/custom_events"/>
+		<assets path="assets/scripting/custom_notetypes"    rename="assets/custom_notetypes"/>
+		<assets path="assets/scripting/custom_gamechangers" rename="assets/custom_gamechangers"/>
+	</section>
+
+	<assets path="assets/classes"       library="classes" 		if="HSCRIPT_ALLOWED"/>
+	<assets path="assets/flash"         library="flash"   		if="FLASH_MOVIE"/>
+
+        <!-- PATH DEFINITIONS -->
+	<section if="web">
+		<assets path="assets/preload" 	    rename="assets" 	    exclude="*.ogg"/>
+		<assets path="assets/songs"         library="songs"         exclude="*.ogg"/>
+		<assets path="assets/shared"        library="shared"        exclude="*.ogg"/>
+		<assets path="assets/tutorial"      library="tutorial"      exclude="*.ogg"/>
+		<assets path="assets/week1"         library="week1"         exclude="*.ogg"/>
+		<assets path="assets/week2"         library="week2"         exclude="*.ogg"/>
+		<assets path="assets/week3"         library="week3"         exclude="*.ogg"/>
+		<assets path="assets/week4"         library="week4"         exclude="*.ogg"/>
+		<assets path="assets/week5"         library="week5"         exclude="*.ogg"/>
+		<assets path="assets/week6"         library="week6"         exclude="*.ogg"/>
+		<assets path="assets/week7"         library="week7"         exclude="*.ogg"/>
+	</section>
+
+	<section unless="web">
+		<assets path="assets/preload" 	    rename="assets" 	    exclude="*.mp3|*.mp4"/>
+		<assets path="assets/songs"         library="songs"         exclude="*.mp3|*.mp4"/>
+		<assets path="assets/shared"        library="shared"        exclude="*.mp3|*.mp4"/>
+		<assets path="assets/tutorial"      library="tutorial"      exclude="*.mp3|*.mp4"/>
+		<assets path="assets/week1"         library="week1"         exclude="*.mp3|*.mp4"/>
+		<assets path="assets/week2"         library="week2"         exclude="*.mp3|*.mp4"/>
+		<assets path="assets/week3"         library="week3"         exclude="*.mp3|*.mp4"/>
+		<assets path="assets/week4"         library="week4"         exclude="*.mp3|*.mp4"/>
+		<assets path="assets/week5"         library="week5"         exclude="*.mp3|*.mp4"/>
+		<assets path="assets/week6"         library="week6"         exclude="*.mp3|*.mp4"/>
+		<assets path="assets/week7"         library="week7"         exclude="*.mp3|*.mp4"/>
+	</section>
+	
+	<section if="MODS_ALLOWED || FUTURE_POLYMOD">
+		<assets path='example_mods' rename='mods' embed='false'/>
+		<assets path='modsList.txt'/>
+	</section>
+
+	<assets path='art/readme.txt' rename='about.txt' />
+	<assets path='LICENSE' rename='LICENSE.txt' />
+	
+	<!-- _______________________________ Libraries ______________________________ -->
+
+	<haxedev set='webgl' />
+
+	<haxelib name="flixel" />
+	<haxelib name="flixel-addons" />
+	<haxelib name="hscript" if="HSCRIPT_ALLOWED"/>
+	<haxelib name="hscript-ex" />
+	<haxelib name="actuate"/>
+	<haxelib name="extension-webm" if="WEBM_ALLOWED"/> 
+	<haxelib name="tjson" />
+	<haxelib name="hxjsonast" />
+	<haxelib name="flixel-ui" />
+	<haxelib name="flixel-tools" />
+	<haxelib name="polymod-joalor64" if="FUTURE_POLYMOD"/>
+	<haxelib name="fnf-modcharting-tools" />
+	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
+	<haxelib name="hxvm-luajit" if="LUA_ALLOWED"/>
+	<haxelib name="SScript" if="SCRIPT_EXTENSION"/>
+	<haxelib name="hxCodec" if="VIDEOS_ALLOWED"/>
+	<haxelib name="swf" if="FLASH_MOVIE"/>
+	<haxelib name="discord_rpc" if="desktop"/>
+	<haxelib name="hxcpp-debug-server" if="desktop debug"/>
+
+	<!-- ______________________________ Haxedefines _____________________________ -->
+
+	<!-- This is for LUA -->
+	<haxedef name="LINC_LUA_RELATIVE_DYNAMIC_LIB"/>
+
+	<!-- Script logging -->
+	<haxedef name="hscriptPos" value="true" />
+	
+	<!--Enable the Flixel core recording system-->
+	<haxedef name="FLX_RECORD" />
+
+	<!--Disable the Flixel core focus lost screen-->
+	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
+	
+	<!-- Show debug traces for hxCodec -->
+	<haxedef name="HXC_DEBUG_TRACE" if="debug" />
+	
+	<!-- Use defines to configure the behavior of Polymod. -->
+	<haxedef name="POLYMOD_SCRIPT_EXT" value=".lua" />
+	<haxedef name="POLYMOD_SCRIPT_CLASS_EXT" value=".lua" />
+	<haxedef name="POLYMOD_SCRIPT_LIBRARY" value="scripts" />
+	<haxedef name="POLYMOD_USE_NAMESPACE" value="false" />
+	<haxedef name="POLYMOD_ROOT_PATH" value="assets/scripts/" />
+	<haxedef name="POLYMOD_MOD_METADATA_FILE" value="_polymod_meta.json" />
+	<haxedef name="POLYMOD_MOD_ICON_FILE" value="_polymod_icon.png" />
+	<haxedef name="POLYMOD_DEBUG" if="debug" />
+
+	<section unless="debug">
+		<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
+		<haxedef name="FLX_NO_DEBUG" />
+
+		<!--Enable this for Nape release builds for a serious peformance improvement-->
+		<haxedef name="NAPE_RELEASE_BUILD" />
+	</section>
+	
+	<!--Used for Izzy Engine's crash handler-->
+	<section if="CRASH_HANDLER">
+		<haxedef name="HXCPP_CHECK_POINTER" />
+		<haxedef name="HXCPP_STACK_LINE" />
+	</section>
+
+	<!-- _______________________________ Errors and Warnings ______________________________ -->
+
+	<error value="You're not using NebulaZoruas github fork of luajit, use it instead." if="${linc_luajit == 0.0.4}" />
+
+	<error value="You're using Haxe 4.1.5, update to 4.2.5." if="${haxe == 4.1.5}" unless="linux" />
+
+	<warn value="HTML5 builds haven't been tested and might not work, so beware of that." if="html5" />
+
+	<!-- _________________________________ Miscellaneous _______________________________ -->
+	
+	<icon path="art/icon16.png" size='16'/>
+	<icon path="art/icon32.png" size='32'/>
+	<icon path="art/icon64.png" size='64'/>
+	<icon path="art/iconOG.png" />
+
+	<!-- ________________________ Import Linux Stuff _____________________________ -->
+	<target id="haxe" tool="linker" if="linux">
+		<lib name="/usr/lib64/libX11.so" if="HXCPP_M64" />
+	</target>
+</project>
